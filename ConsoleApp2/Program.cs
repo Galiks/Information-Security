@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,50 +12,63 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            var M = "101111001110"; // 1000
+            //var M = "101111001110"; // 1000
 
             //var M = "101111001111"; //1001
 
             //var M = "111111001111"; //1110
 
+            string pathToFile = @"E:\Documents\GitHub\Information-Security\TextFile1.txt";
+
             var G = "10011";
 
-            //создание массивов
+            string input = "";
 
-            BitArray bitArrayM = new BitArray(M.Length);
-
-            for (int i = 0; i < bitArrayM.Length; i++)
+            using (StreamReader reader = new StreamReader(pathToFile))
             {
-                if (M[i] == '1')
-                {
-                    bitArrayM[i] = true;
-                }
-                if (M[i] == '0')
-                {
-                    bitArrayM[i] = false;
-                }
+                input = reader.ReadToEnd();
             }
 
-            BitArray bitArrayG = new BitArray(G.Length);
+            Console.WriteLine(input);
 
-            for (int i = 0; i < bitArrayG.Length; i++)
-            {
-                if (G[i] == '1')
-                {
-                    bitArrayG[i] = true;
-                }
-                if (G[i] == '0')
-                {
-                    bitArrayG[i] = false;
-                }
-            }
+            //string tempStr = InputStr(input);
 
-            bitArrayM = NewMethod(bitArrayM, bitArrayG);
+            //Console.WriteLine(tempStr);
 
-            foreach (var item in bitArrayM)
-            {
-                Console.WriteLine(item);
-            }
+            //Console.WriteLine();
+
+            ////Console.WriteLine(CRC(tempStr, G));
+
+            //Console.WriteLine();
+            //Dictionary<string, string> transition = DictInitial();
+
+            //var result = CRC(tempStr, G);
+
+            //Console.WriteLine(result.Length);
+
+            //var temp = new StringBuilder(result);
+
+            //while (temp.Length % 4 != 0)
+            //{
+            //    temp.Insert(0, "0");
+            //}
+
+            //Console.WriteLine(temp);
+
+            //string result2 = "";
+
+            //string temp2 = temp.ToString();
+
+            //for (int i = 0; i < temp2.Length; i += 4)
+            //{
+            //    result2 += transition[temp2.Substring(i, 4)];
+            //}
+
+            //Console.WriteLine(result2);
+
+            //Console.WriteLine("!!!!!!!!!!!!!");
+
+            //Console.WriteLine(CRC(tempStr, G));
 
             #region Версия взята из интернета
             //byte[] source = { 1};
@@ -86,8 +100,49 @@ namespace ConsoleApp2
             Console.ReadKey();
         }
 
-        private static BitArray NewMethod(BitArray bitArrayM, BitArray bitArrayG)
+        private static string InputStr(string str)
         {
+            string tempStr = "";
+
+            var a = str.ToCharArray().Select(i => Convert.ToString(i, 2));
+            foreach (var ch in a)
+            {
+                tempStr += ch;
+            }
+
+            return tempStr;
+        }
+
+        private static Dictionary<string, string> DictInitial()
+        {
+            Dictionary<string, string> transition = new Dictionary<string, string>();
+
+            transition.Add("0000", "0");
+            transition.Add("0001", "1");
+            transition.Add("0010", "2");
+            transition.Add("0011", "3");
+            transition.Add("0100", "4");
+            transition.Add("0101", "5");
+            transition.Add("0110", "6");
+            transition.Add("0111", "7");
+            transition.Add("1000", "8");
+            transition.Add("1001", "9");
+            transition.Add("1010", "a");
+            transition.Add("1011", "b");
+            transition.Add("1100", "c");
+            transition.Add("1101", "d");
+            transition.Add("1110", "e");
+            transition.Add("1111", "f");
+            return transition;
+        }
+
+        private static string CRC(string M, string G)
+        {
+
+            BitArray bitArrayM = InBitArray(M);
+
+            BitArray bitArrayG = InBitArray(G);
+
             while (bitArrayM.Length >= bitArrayG.Length)
             {
 
@@ -120,7 +175,52 @@ namespace ConsoleApp2
                 bitArrayM = new BitArray(bitArrayMTemp);
             }
 
+            string temp = InString(bitArrayM);
+
+            foreach (var item in temp)
+            {
+                M += item;
+            }
+
+            return M;
+        }
+
+        private static BitArray InBitArray(string M)
+        {
+            BitArray bitArrayM = new BitArray(M.Length);
+
+            for (int i = 0; i < bitArrayM.Length; i++)
+            {
+                if (M[i] == '1')
+                {
+                    bitArrayM[i] = true;
+                }
+                if (M[i] == '0')
+                {
+                    bitArrayM[i] = false;
+                }
+            }
+
             return bitArrayM;
+        }
+
+        private static string InString(BitArray bitArrayM)
+        {
+            string temp = "";
+
+            foreach (var item in bitArrayM)
+            {
+                if ((bool)item == true)
+                {
+                    temp += "1";
+                }
+                if ((bool)item == false)
+                {
+                    temp += "0";
+                }
+            }
+
+            return temp;
         }
 
         private static int IndexForNewArray(BitArray bitArrayTemp)
@@ -135,5 +235,6 @@ namespace ConsoleApp2
 
             return bitArrayTemp.Length;
         }
+
     }
 }
