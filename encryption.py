@@ -96,9 +96,32 @@ class Steganography:
         return n.to_bytes((n.bit_length() + 7) // 8, 'big').decode(encoding, errors) or '\0'
 
 
+class Signature:
+
+    def __init__(self):
+        signatureDictionary = self.setSignatureDictionary()
+        file = open("E:\Загрузки\Empower_B1_Intermediate_Workbook_with_answers.pdf", "rb")
+        test = file.read(32)
+        test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        for i in signatureDictionary.keys():
+            if i in test2:
+                print(signatureDictionary.get(i))
+
+    def setSignatureDictionary(self):
+        signatureDictionary = {'49 44 33': 'mp3',
+                               '25 50 44 46': 'pdf',
+                               '89 50 4E 47 0D 0A 1A 0A': 'png',
+                               '52 61 72 21 1A 07': 'rar',
+                               '50 4B 03 04': 'docx',
+                               '37 7A BC AF 27 1C': '7z',
+                               'FF D8 FF DB': 'jpg',
+                               '46 4F 52': 'txt',
+                               '58 54': 'txt'}
+        return signatureDictionary
+
+
 if __name__ == '__main__':
-    # print('Шифр Цезаря')
-    # start1 = Encryption()
-    # print()
-    print('Стеганография')
-    start2 = Steganography()
+    # print('Стеганография')
+    # start2 = Steganography()
+    print('Определение сигнатуры')
+    start3 = Signature()
