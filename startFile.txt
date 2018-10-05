@@ -1,1 +1,1 @@
-Okey. It's simple text for testing my program. Russian text don't read because unicode break
+Okey. It's simple text for testing my program. Russian text don't read because unicode breaks

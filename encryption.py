@@ -1,4 +1,5 @@
 import random
+import codecs
 
 
 class Encryption:
@@ -14,7 +15,7 @@ class Encryption:
             else:
                 result += alphabet[(alphabet.index(i) + steps[j]) % len(alphabet)]
                 j += 1
-        print(result)
+        print('Зашифрованное сообщение: ', result)
         return result
 
     def decr(self, steps: list, result: str):
@@ -26,14 +27,15 @@ class Encryption:
             else:
                 line += alphabet[(alphabet.index(i) - steps[j]) % len(alphabet)]
                 j += 1
-        print(line)
+        print('Дешифрованное сообщение: ', line)
 
     def encrypting(self):
         global alphabet, steps
         alphabet = "QWERTYUIOPASDFGHJKLZXCVBNMЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮqwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапролджэячсмитьбю1234567890!?№;%:*()@#$^&[].,/\\_+=-"
+        print('Алфавит: ', alphabet)
         result = ""
         line = input()
-        print(line)
+        print('Входная строка, заданная пользователем', line)
         steps = []
         for i in range(len(line)):
             steps.append(random.randint(1, len(alphabet)))
@@ -44,36 +46,46 @@ class Steganography:
 
     def __init__(self):
         # инициализация переменных
-        line = "usual text"
-        lineLength = len(line)
-        startFile = open("startFile.txt", 'r')
-        endFile = open("endFile.txt", 'w+')
+        masForBit = ""
+        startFile = codecs.open("startFile.txt", 'r', 'utf_8_sig')
+        textFile = codecs.open("fileWithText.txt", 'r', 'utf_8_sig')
+        endFile = codecs.open("endFile.txt", 'w+', 'utf_8_sig')
         letter = startFile.read()
-        array = self.text_to_bits(letter)
+        text = textFile.read()
         specSymbolForZero = self.text_from_bits(str(100000))
         specSymbolForOne = self.text_from_bits(str(1111111))
-        line = self.encryption(array, endFile, line, specSymbolForOne, specSymbolForZero)
-        # декодирование
-        self.decryption(line, lineLength, specSymbolForOne, specSymbolForZero)
+        print('Входная строка, заданная пользователем: ', letter)
+        for item in letter:
+            masForBit += self.text_to_bits(item)
+        lenMasOfBit = len(masForBit)
+        text = text.split()
 
-    def decryption(self, line, lineLength, specSymbolForOne, specSymbolForZero):
+        self.encryption(endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text)
+
+        self.decryption(lenMasOfBit, specSymbolForOne, specSymbolForZero, text)
+
+    def decryption(self, lenMasOfBit, specSymbolForOne, specSymbolForZero, text):
+        endFile = codecs.open("endFile.txt", 'r', 'utf_8_sig')
+        test = endFile.read()
+        result2 = ""
+        for i in range(len(text)):
+            if test[i] == specSymbolForOne:
+                result2 += "1"
+            elif test[i] == specSymbolForZero:
+                result2 += "0"
+        print('Результат дешифрования: ', self.text_from_bits(result2[:lenMasOfBit]))
+
+    def encryption(self, endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text):
         result = ""
-        for i in range(lineLength, len(line)):
-            if line[i] == specSymbolForZero:
-                result += "0"
-            elif line[i] == specSymbolForOne:
-                result += "1"
-        print(self.text_from_bits(result))
+        for i in range(lenMasOfBit):
 
-    def encryption(self, array, endFile, line, specSymbolForOne, specSymbolForZero):
-        for item in array:
-            for i in item:
-                if (int(i) & 1) == 1:
-                    line += specSymbolForOne
-                else:
-                    line += specSymbolForZero
-        endFile.write(line)
-        return line
+            if (int(masForBit[i]) & 1) == 1:
+                result += text[i] + specSymbolForOne
+            elif (int(masForBit[i]) & 1) == 0:
+                result += text[i] + specSymbolForZero
+        for i in range(lenMasOfBit, len(text)):
+            result += text[i] + ' '
+        endFile.write(result)
 
     def text_to_bits(self, text, encoding='utf-8', errors='surrogatepass'):
         bits = bin(int.from_bytes(text.encode(encoding, errors), 'big'))[2:]
@@ -85,5 +97,8 @@ class Steganography:
 
 
 if __name__ == '__main__':
-    start1 = Encryption()
+    # print('Шифр Цезаря')
+    # start1 = Encryption()
+    # print()
+    print('Стеганография')
     start2 = Steganography()
