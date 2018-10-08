@@ -1,5 +1,6 @@
 import random
 import codecs
+import fleep
 
 
 class Encryption:
@@ -46,6 +47,7 @@ class Steganography:
 
     def __init__(self):
         # инициализация переменных
+        stopSymbol = '$'
         masForBit = ""
         startFile = codecs.open("startFile.txt", 'r', 'utf_8_sig')
         textFile = codecs.open("fileWithText.txt", 'r', 'utf_8_sig')
@@ -60,22 +62,27 @@ class Steganography:
         lenMasOfBit = len(masForBit)
         text = text.split()
 
-        self.encryption(endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text)
+        self.encryption(endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text, stopSymbol)
 
-        self.decryption(lenMasOfBit, specSymbolForOne, specSymbolForZero, text)
+        self.decryption(specSymbolForOne, specSymbolForZero, stopSymbol)
 
-    def decryption(self, lenMasOfBit, specSymbolForOne, specSymbolForZero, text):
+    def decryption(self, specSymbolForOne, specSymbolForZero, stopSymbol):
         endFile = codecs.open("endFile.txt", 'r', 'utf_8_sig')
         test = endFile.read()
-        result2 = ""
-        for i in range(len(text)):
-            if test[i] == specSymbolForOne:
-                result2 += "1"
-            elif test[i] == specSymbolForZero:
-                result2 += "0"
-        print('Результат дешифрования: ', self.text_from_bits(result2[:lenMasOfBit]))
 
-    def encryption(self, endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text):
+        result2 = ""
+        for i in range(len(test)):
+            if test[i] != stopSymbol:
+                if test[i] == specSymbolForOne:
+                    result2 += "1"
+                elif test[i] == specSymbolForZero:
+                    result2 += "0"
+            else:
+                break
+
+        print('Результат дешифрования: ', self.text_from_bits(result2))
+
+    def encryption(self, endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text, stopSymbol):
         result = ""
         for i in range(lenMasOfBit):
 
@@ -83,9 +90,14 @@ class Steganography:
                 result += text[i] + specSymbolForOne
             elif (int(masForBit[i]) & 1) == 0:
                 result += text[i] + specSymbolForZero
+
+        result += stopSymbol
+
         for i in range(lenMasOfBit, len(text)):
             result += text[i] + ' '
         endFile.write(result)
+
+
 
     def text_to_bits(self, text, encoding='utf-8', errors='surrogatepass'):
         bits = bin(int.from_bytes(text.encode(encoding, errors), 'big'))[2:]
@@ -99,13 +111,15 @@ class Steganography:
 class Signature:
 
     def __init__(self):
-        signatureDictionary = self.setSignatureDictionary()
-        file = open("E:\Загрузки\Empower_B1_Intermediate_Workbook_with_answers.pdf", "rb")
+        # signatureDictionary = self.setSignatureDictionary()
+        file = open("E:\Загрузки\schedule_do_441.xls", "rb")
         test = file.read(32)
+        print(test)
         test2 = " ".join(['{:02X}'.format(byte) for byte in test])
-        for i in signatureDictionary.keys():
-            if i in test2:
-                print(signatureDictionary.get(i))
+        print(test2)
+        # for i in signatureDictionary.keys():
+        #     if i in test2:
+        #         print(signatureDictionary.get(i))
 
     def setSignatureDictionary(self):
         signatureDictionary = {'49 44 33': 'mp3',
@@ -116,12 +130,21 @@ class Signature:
                                '37 7A BC AF 27 1C': '7z',
                                'FF D8 FF DB': 'jpg',
                                '46 4F 52': 'txt',
-                               '58 54': 'txt'}
+                               '58 54': 'txt',
+                               '50 4B 03 04 14 00 06 00': 'docx',
+                               'D0 CF 11 E0 A1 B1 1A E1': 'xls',
+                               }
         return signatureDictionary
 
 
 if __name__ == '__main__':
     # print('Стеганография')
     # start2 = Steganography()
-    print('Определение сигнатуры')
-    start3 = Signature()
+    # print('Определение сигнатуры')
+    # start3 = Signature()
+    with open("E:\Загрузки\schedule_do_441.xls", "rb") as file:
+        info = fleep.get(file.read(128))
+
+    print(info.type)  # prints ['raster-image']
+    print(info.extension)  # prints ['png']
+    print(info.mime)  # prints ['image/png']
