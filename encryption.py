@@ -62,7 +62,7 @@ class Steganography:
         lenMasOfBit = len(masForBit)
         text = text.split()
 
-        self.encryption(endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text, stopSymbol)
+        self.encryption(endFile, masForBit, specSymbolForOne, specSymbolForZero, text, stopSymbol)
 
         self.decryption(specSymbolForOne, specSymbolForZero, stopSymbol)
 
@@ -82,10 +82,11 @@ class Steganography:
 
         print('Результат дешифрования: ', self.text_from_bits(result2))
 
-    def encryption(self, endFile, lenMasOfBit, masForBit, specSymbolForOne, specSymbolForZero, text, stopSymbol):
+    def encryption(self, endFile, masForBit, specSymbolForOne, specSymbolForZero, text, stopSymbol):
         result = ""
-        for i in range(lenMasOfBit):
+        for i in range(len(masForBit)):
 
+            # исключающее или XOR
             if (int(masForBit[i]) & 1) == 1:
                 result += text[i] + specSymbolForOne
             elif (int(masForBit[i]) & 1) == 0:
@@ -93,10 +94,9 @@ class Steganography:
 
         result += stopSymbol
 
-        for i in range(lenMasOfBit, len(text)):
+        for i in range(len(masForBit), len(text)):
             result += text[i] + ' '
         endFile.write(result)
-
 
 
     def text_to_bits(self, text, encoding='utf-8', errors='surrogatepass'):
@@ -138,13 +138,13 @@ class Signature:
 
 
 if __name__ == '__main__':
-    # print('Стеганография')
-    # start2 = Steganography()
+    print('Стеганография')
+    start2 = Steganography()
     # print('Определение сигнатуры')
     # start3 = Signature()
-    with open("E:\Загрузки\schedule_do_441.xls", "rb") as file:
-        info = fleep.get(file.read(128))
-
-    print(info.type)  # prints ['raster-image']
-    print(info.extension)  # prints ['png']
-    print(info.mime)  # prints ['image/png']
+    # with open("E:\Загрузки\schedule_do_441.xls", "rb") as file:
+    #     info = fleep.get(file.read(128))
+    #
+    # print(info.type)  # prints ['raster-image']
+    # print(info.extension)  # prints ['png']
+    # print(info.mime)  # prints ['image/png']
