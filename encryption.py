@@ -59,7 +59,6 @@ class Steganography:
         print('Входная строка, заданная пользователем: ', letter)
         for item in letter:
             masForBit += self.text_to_bits(item)
-        lenMasOfBit = len(masForBit)
         text = text.split()
 
         self.encryption(endFile, masForBit, specSymbolForOne, specSymbolForZero, text, stopSymbol)
@@ -98,7 +97,6 @@ class Steganography:
             result += text[i] + ' '
         endFile.write(result)
 
-
     def text_to_bits(self, text, encoding='utf-8', errors='surrogatepass'):
         bits = bin(int.from_bytes(text.encode(encoding, errors), 'big'))[2:]
         return bits.zfill(8 * ((len(bits) + 7) // 8))
@@ -113,10 +111,20 @@ class Signature:
     def __init__(self):
         # signatureDictionary = self.setSignatureDictionary()
         file = open("E:\Загрузки\schedule_do_441.xls", "rb")
-        test = file.read(32)
+        test = file.read()
         print(test)
-        test2 = " ".join(['{:02X}'.format(byte) for byte in test])
-        print(test2)
+        # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        # print(test2)
+        # file = open("E:\Загрузки\Задание.docx", "rb")
+        # test = file.read()
+        # print(test)
+        # # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        # # print(test2)
+        # file = open("E:\Загрузки\qwerty.xlsx", "rb")
+        # test = file.read()
+        # print(test)
+        # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        # print(test2)
         # for i in signatureDictionary.keys():
         #     if i in test2:
         #         print(signatureDictionary.get(i))
@@ -126,23 +134,24 @@ class Signature:
                                '25 50 44 46': 'pdf',
                                '89 50 4E 47 0D 0A 1A 0A': 'png',
                                '52 61 72 21 1A 07': 'rar',
-                               '50 4B 03 04': 'docx',
                                '37 7A BC AF 27 1C': '7z',
                                'FF D8 FF DB': 'jpg',
                                '46 4F 52': 'txt',
                                '58 54': 'txt',
                                '50 4B 03 04 14 00 06 00': 'docx',
                                'D0 CF 11 E0 A1 B1 1A E1': 'xls',
+                                'excel': 'xls'
                                }
         return signatureDictionary
 
 
 if __name__ == '__main__':
-    print('Стеганография')
-    start2 = Steganography()
-    # print('Определение сигнатуры')
-    # start3 = Signature()
-    # with open("E:\Загрузки\schedule_do_441.xls", "rb") as file:
+    print('Определение сигнатуры')
+    start3 = Signature()
+
+
+
+    # with open("E:\Загрузки\Задание.docx", "rb") as file:
     #     info = fleep.get(file.read(128))
     #
     # print(info.type)  # prints ['raster-image']
