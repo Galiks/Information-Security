@@ -109,25 +109,15 @@ class Steganography:
 class Signature:
 
     def __init__(self):
-        # signatureDictionary = self.setSignatureDictionary()
+        signatureDictionary = self.setSignatureDictionary()
         file = open("E:\Загрузки\schedule_do_441.xls", "rb")
         test = file.read()
         print(test)
-        # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
-        # print(test2)
-        # file = open("E:\Загрузки\Задание.docx", "rb")
-        # test = file.read()
-        # print(test)
-        # # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
-        # # print(test2)
-        # file = open("E:\Загрузки\qwerty.xlsx", "rb")
-        # test = file.read()
-        # print(test)
-        # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
-        # print(test2)
-        # for i in signatureDictionary.keys():
-        #     if i in test2:
-        #         print(signatureDictionary.get(i))
+        test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        print(test2)
+        for i in signatureDictionary.keys():
+            if i in str(test):
+                print(signatureDictionary.get(i))
 
     def setSignatureDictionary(self):
         signatureDictionary = {'49 44 33': 'mp3',
@@ -140,7 +130,7 @@ class Signature:
                                '58 54': 'txt',
                                '50 4B 03 04 14 00 06 00': 'docx',
                                'D0 CF 11 E0 A1 B1 1A E1': 'xls',
-                                'excel': 'xls'
+                                'Excel': 'xls'
                                }
         return signatureDictionary
 
@@ -148,8 +138,6 @@ class Signature:
 if __name__ == '__main__':
     print('Определение сигнатуры')
     start3 = Signature()
-
-
 
     # with open("E:\Загрузки\Задание.docx", "rb") as file:
     #     info = fleep.get(file.read(128))
