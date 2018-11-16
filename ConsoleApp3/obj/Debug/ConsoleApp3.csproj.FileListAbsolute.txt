@@ -5,3 +5,13 @@ E:\Programs\Projects Visual Studio\ConsoleApp3\ConsoleApp3\obj\Debug\ConsoleApp3
 E:\Programs\Projects Visual Studio\ConsoleApp3\ConsoleApp3\obj\Debug\ConsoleApp3.csproj.CoreCompileInputs.cache
 E:\Programs\Projects Visual Studio\ConsoleApp3\ConsoleApp3\obj\Debug\ConsoleApp3.exe
 E:\Programs\Projects Visual Studio\ConsoleApp3\ConsoleApp3\obj\Debug\ConsoleApp3.pdb
+E:\Документы\GitHub\Information-Security\ConsoleApp3\bin\Debug\ConsoleApp3.exe.config
+E:\Документы\GitHub\Information-Security\ConsoleApp3\bin\Debug\ConsoleApp3.exe
+E:\Документы\GitHub\Information-Security\ConsoleApp3\bin\Debug\ConsoleApp3.pdb
+E:\Документы\GitHub\Information-Security\ConsoleApp3\obj\Debug\ConsoleApp3.csprojAssemblyReference.cache
+E:\Документы\GitHub\Information-Security\ConsoleApp3\obj\Debug\ConsoleApp3.csproj.CoreCompileInputs.cache
+E:\Документы\GitHub\Information-Security\ConsoleApp3\obj\Debug\ConsoleApp3.exe
+E:\Документы\GitHub\Information-Security\ConsoleApp3\obj\Debug\ConsoleApp3.pdb
+E:\Документы\GitHub\Information-Security\ConsoleApp3\bin\Debug\DotNetZip.dll
+E:\Документы\GitHub\Information-Security\ConsoleApp3\bin\Debug\DotNetZip.xml
+E:\Документы\GitHub\Information-Security\ConsoleApp3\obj\Debug\ConsoleApp3.csproj.CopyComplete
