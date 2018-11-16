@@ -18,62 +18,70 @@ namespace Signature
                 { @"word/document", "DOCX" },
                 { @"Excel.Sheet" , "XLS"},
                 { @"workbook.xml", "XLSX"},
-                { "137 80 78 71 13 10 26 10", "PNG"},
+                { "13780787113102610", "PNG"}, //137 80 78 71 13 10 26 10
                 { "MSWordDoc", "DOC"},
             };
 
             List<string> files = new List<string>()
             {
-                @"E:\Загрузки\CхемаБазы.jpg",
-                @"E:\Загрузки\schedule_do_441.xls",
-                @"E:\Загрузки\Задание.docx",
-                @"E:\Загрузки\qwerty.xlsx",
-                @"E:\Загрузки\Текст для КНиИт.doc",
+                @"E:\Download\CхемаБазы.png",
+                @"E:\Download\Apple.docx",
+                @"E:\Download\Table3.xlsx",
             };
 
 
-            //foreach (var filePath in files)
-            //{
-            //    if (end == true)
-            //    {
-            //        break;
-            //    }
-            //    using (StreamReader streamReader = new StreamReader(filePath))
-            //    {
-            //        string line = streamReader.ReadToEnd();
+            foreach (var filePath in files)
+            {
+                end = false;
 
-            //        //Console.WriteLine(line);
+                using (StreamReader streamReader = new StreamReader(filePath))
+                {
+                    string line = streamReader.ReadToEnd();
 
-            //        foreach (var item in signature)
-            //        {
-            //            if (line.Contains(item.Key))
-            //            {
-            //                Console.WriteLine(item.Value);
-            //                end = true;
-            //            }
-            //        }
-            //    }
+                    //Console.WriteLine(line);
+
+                    foreach (var item in signature)
+                    {
+                        if (line.Contains(item.Key))
+                        {
+                            Console.WriteLine(item.Value);
+                            end = true;
+                        }
+                    }
+                }
 
                 //137 80 78 71 13 10 26 10
 
-                byte[] result = null;
-                using (FileStream fileStream = File.OpenRead(@"E:\Загрузки\CхемаБазы.jpg"))
+                if (!end)
                 {
-                    using (BinaryReader binaryReader = new BinaryReader(fileStream))
+                    byte[] result = null;
+                    using (FileStream fileStream = File.OpenRead(@"E:\Download\CхемаБазы.png"))
                     {
-                        result = binaryReader.ReadBytes(16);
-
-                        foreach (var item in signature)
+                        using (BinaryReader binaryReader = new BinaryReader(fileStream))
                         {
-                            if (item.ToString().Contains(item.Key))
+                            result = binaryReader.ReadBytes(16);
+
+                            string sign = "";
+
+                            foreach (var item in result)
                             {
-                                Console.WriteLine(item.Value);
-                                end = true;
+                                sign += item.ToString();
+                            }
+
+                            //Console.WriteLine(sign);
+
+                            foreach (var item in signature)
+                            {
+                                if (sign.Contains(item.Key))
+                                {
+                                    Console.WriteLine(item.Value);
+                                    continue;
+                                }
                             }
                         }
                     }
                 }
-            //}
+            }
 
             Console.Read();
         }
