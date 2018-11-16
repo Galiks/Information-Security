@@ -111,28 +111,62 @@ class Steganography:
 class Signature:
 
     def __init__(self):
-        # signatureDictionary = self.setSignatureDictionary()
-        file = open("E:\Загрузки\schedule_do_441.xls", "rb")
+        signatureDictionary = self.setSignatureDictionary()
+        signatureForOffice = '50 4B 03 04 14 00 06 00 08 00 00 00 21 00'
+        print("!!!")
+        file = open("E:\Документы\Принципы права.docx", "rb")
         test = file.read(32)
-        print(test)
         test2 = " ".join(['{:02X}'.format(byte) for byte in test])
         print(test2)
+        print("!!!")
+        file = open("E:\Документы\First Summary (Airbnb).docx", "rb")
+        test = file.read(32)
+        test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        print(test2)
+        print("!!!")
+        file = open("E:\Документы\qwerty.docx", "rb")
+        test = file.read(32)
+        test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        print(test2)
+        print("!!!")
+        file = open("E:\Download\Dogovor.docx", "rb")
+        test = file.read(32)
+        test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        print(test2)
+        # file = open("E:\Документы\Принципы права.pptx", "rb")
+        # test = file.read(32)
+        # print(test)
+        # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        # print(test2)
+        # file = open("E:\Документы\Тестовая.pptx", "rb")
+        # test = file.read(32)
+        # print(test)
+        # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        # print(test2)
+        # file = open("E:\Документы\Тестовая2.pptx", "rb")
+        # test = file.read(32)
+        # print(test)
+        # test2 = " ".join(['{:02X}'.format(byte) for byte in test])
+        # print(test2)
         # for i in signatureDictionary.keys():
         #     if i in test2:
         #         print(signatureDictionary.get(i))
+        if signatureForOffice in test2:
+            print('OfficeFile')
 
     def setSignatureDictionary(self):
         signatureDictionary = {'49 44 33': 'mp3',
                                '25 50 44 46': 'pdf',
                                '89 50 4E 47 0D 0A 1A 0A': 'png',
                                '52 61 72 21 1A 07': 'rar',
-                               '50 4B 03 04': 'docx',
                                '37 7A BC AF 27 1C': '7z',
                                'FF D8 FF DB': 'jpg',
                                '46 4F 52': 'txt',
                                '58 54': 'txt',
-                               '50 4B 03 04 14 00 06 00': 'docx',
+                               '01 00 00 20 05 00 00 13 00 08 02 5B 43': 'docx',
+                               '01 00 00 20 05 00 00 13 00 08 02 5B 43': 'docx',
                                'D0 CF 11 E0 A1 B1 1A E1': 'xls',
+                               '00 00 13 00 08 02 5B 43': 'pptx'
                                }
         return signatureDictionary
 
@@ -142,7 +176,7 @@ if __name__ == '__main__':
     # start2 = Steganography()
     # print('Определение сигнатуры')
     # start3 = Signature()
-    with open("E:\Загрузки\schedule_do_441.xls", "rb") as file:
+    with open("E:\Документы\Принципы права.pptx", "rb") as file:
         info = fleep.get(file.read(128))
 
     print(info.type)  # prints ['raster-image']
