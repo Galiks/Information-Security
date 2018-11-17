@@ -24,9 +24,10 @@ namespace Signature
 
             List<string> files = new List<string>()
             {
-                @"E:\Download\CхемаБазы.png",
-                @"E:\Download\Apple.docx",
-                @"E:\Download\Table3.xlsx",
+                @"E:\Загрузки\CхемаБазы.jpg",
+                @"E:\Загрузки\Dogovor.docx",
+                @"E:\Загрузки\schedule_do_441.xls",
+                @"E:\Загрузки\xlsx.docx",
             };
 
 
@@ -55,7 +56,7 @@ namespace Signature
                 if (!end)
                 {
                     byte[] result = null;
-                    using (FileStream fileStream = File.OpenRead(@"E:\Download\CхемаБазы.png"))
+                    using (FileStream fileStream = File.OpenRead(filePath))
                     {
                         using (BinaryReader binaryReader = new BinaryReader(fileStream))
                         {
